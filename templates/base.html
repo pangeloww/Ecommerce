@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        jquery and bootstrap importing in the project
+    -->
+    <meta charset="UTF-8">
+    <title>{% block title %}Phone Accessories{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="#">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
+            <div class="container-fluid px-md-4">
+                <div class="d-flex w-100 navbar-collapse">
+                    <a class="navbar-brand" href="/">Phone Accessories</a>
+                    <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                        <!--
+                            with a django for loop all categories are displayed in the categories dropdown menu
+                        -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-none d-md-block fw500" href="#" id="navbarDropdown"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Категорий
+                            </a>
+                            <ul class="dropdown-menu rounded-0 border-0" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{% url "store:store_home" %}">Всички</a></li>
+                                {% for c in categories %}
+                                <li {% if category.slug == c.slug %}class="selected" {% endif %}>
+                                    <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Shop</span>
+                    </button>
+
+                    <!--
+                        Check if user is authenticated with a if statement to validate user login and logout button
+                    -->
+
+                    {% if user.is_authenticated %}
+                    <a type="button" role="button" href="{% url "account:logout" %}"
+                        class="btn btn-outline-secondary border-0 basket-btn">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-door-closed" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
+                                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Изход</span>
+                    </a>
+                    {% else %}
+                    <a type="button" role="button" href="account/login"
+                        class="btn btn-outline-secondary border-0 basket-btn">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-door-closed" viewBox="0 0 16 16">
+                                <path
+                                    d="M3 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v13h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V2zm1 13h8V2H4v13z" />
+                                <path d="M9 9a1 1 0 1 0 2 0 1 1 0 0 0-2 0z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Вход</span>
+                    </a>
+                    {% endif %}
+
+                    
+                    <a type="button" role="button" href="{% url "account:dashboard" %}"
+                        class="btn btn-outline-secondary border-0 basket-btn">
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-person" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Профил</span>
+                    </a>
+
+                    <!--
+                        Getting cart legth
+                    -->
+
+                    <a type="button" role="button" href="{% url "basket:basket_summary" %}"
+                        class="btn btn-outline-secondary border-0 basket-btn">
+
+                        {% with total_qty=basket|length %}
+                        <div id="basket-qty" class="basket-qty">
+                            {% if total_qty > 0 %}
+                            {{ total_qty }}
+                            {% else %}
+                            0
+                            {% endif %}
+                        </div>
+                        {% endwith %}
+                        <div>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor"
+                                class="bi bi-cart3" viewBox="0 0 16 16">
+                                <path
+                                    d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                            </svg>
+                        </div>
+                        <span class="fs15 fw500">Количка</span>
+                    </a>
+                </div>
+                <div class="d-md-none d-lg-none d-xl-none">
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                            <li><a class="dropdown-item" href="{% url "store:store_home" %}">All</a></li>
+                            {% for c in categories %}
+                            <li {% if category.slug == c.slug %}class="selected" {% endif %}>
+                                <a class="dropdown-item" href="{{ c.get_absolute_url }}">{{ c.name|title }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <form class="d-flex w-100 d-md-none">
+                    <input class="form-control me-2" type="search" placeholder="Search products or FAQ"
+                        aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+    </header>
+    <div id="content">{% block content %} {% endblock %}</div>
+<!--
+    footer elements
+-->
+    <footer class="container py-5 footer">
+        <hr>
+        <div class="row pt-4">
+            <div class="col-12 col-md">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-asterisk" viewBox="0 0 16 16">
+                    <path
+                        d="" />
+                </svg>
+                <small class="d-block mb-3 text-muted">&copy; 2022-2023</small>
+            </div>
+            <div class="col-6 col-md fs15">
+                <h5>Features</h5>
+                <ul class="list-unstyled">
+                    <li><a class="link-secondary text-decoration-none" href="#">Сигурни плащания със <a href="https://stripe.com/en-bg">Stripe</a> и <a href="https://www.paypal.com/">PayPal</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Сигурност за вашите лични данни</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Бърза международна доставка</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Достъпни админски услуги в работните часове</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md fs15">
+                <h5>За нас</h5>
+                <ul class="list-unstyled">
+                    <li><a class="link-secondary text-decoration-none" href="#">Свържи се с нас</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Имейл: martinpangelov88@gmail.com</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Телефон: 0876366308</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Екип: Martin Pangelov</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Работни часове</h5>
+                <ul class="list-unstyled">
+                    <li><a class="link-secondary text-decoration-none" href="#">Понеделник: 09:00 - 18:00</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Вторник: 09:00 - 18:00</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Сряда: 09:00 - 18:00</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Четвъртък: 09:00 - 18:00</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Петък: 09:00 - 18:00</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Събота: 12:00 - 16:00</a></li>
+                    <li><a class="link-secondary text-decoration-none" href="#">Неделя: Not working</a></li>
+                </ul>
+            </div>
+        </div>
+        </div>
+    </footer>
+</body>
+</html>

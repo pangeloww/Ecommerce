@@ -1,0 +1,7 @@
+{% autoescape off %}
+Здравей {{ user.user_name }},
+
+Вашият профил беше успешно създаден. Моля отворете линка посочен по долу, за да активирате своя профил.
+
+http://{{ domain }}{% url 'account:activate' uidb64=uid token=token %}
+{% endautoescape %}

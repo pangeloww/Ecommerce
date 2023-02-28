@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}PhoneAccessories{% endblock %}
+
+{% block content %}
+
+    <!--
+      When you enter the website and you are not logged this is the big setion that tells you to register
+    -->
+
+    {% if user.is_authenticated %}
+    <div>
+      
+    </div>
+    {% else %}
+    <section class="py-5 text-center container">
+      <div class="row py-lg-1">
+        <div class="col-lg-6 col-md-8 mx-auto">
+          <h1 class="h1 fw-bold">Всички аксесоари за твоя телефон на едно място!</h1>
+          <p class="lead text-muted"></p>
+          <p>
+            <a href="{% url "account:register" %}" class="btn btn-primary my-2">Направи си акаунт</a>
+          </p>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    
+    <!--
+      Displays all items avairable in the store
+    -->
+
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="pb-3 h5">Всички аксесоари</div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3">
+          {% for product in products %}
+          <div class="col">
+            <div class="card shadow-sm">
+              <img class="img-fluid" alt="Responsive image" src="{{ product.image.url }}">
+              <div class="card-body">
+                <p class="card-text">
+                  <a class="text-dark text-decoration-none" href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,330 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block title %}Payment{% endblock %}
+{% block content %}
+
+<style>
+  .account-form input{
+    border: 2px solid #ccc;
+    height: calc(2em + .75rem + 2px);
+  }
+
+  .form-control {
+    border: 2px solid #ccc;
+  }
+
+  .account-form input:focus {
+    border-color: #1497ff;
+    box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.075), 0 0 0px rgba(255, 0, 0, 0.6);
+  }
+</style>
+
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="col-md-12">
+      <div class="login d-flex align-items-center py-5">
+        <div class="container">
+          <div class="row">
+            <div id="payment-form" class="col-12 col-lg-6 mx-auto">
+              <!--
+                Payment form
+              -->
+              <h3 class="mb-3">Адрес на плащане</h3>
+              <div id="card-errors" class="a" role="alert"></div>
+              <form>
+                <div class="row g-3">
+                  <div class="col-sm-7">
+                    <label for="firstName" class="form-label">Име на потребител</label>
+                    <input type="text" class="form-control" id="custName" placeholder="вашето име" required>
+                    <div class="invalid-feedback">
+                      Изисква се валидно име!
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="email" class="form-label">Имейл <span class="text-muted">(Опционално)</span></label>
+                    <input type="email" class="form-control" id="email" placeholder="вашиятимеил@пример.com">
+                    <div class="invalid-feedback">
+                      Моля въведете валиден имейл адрес за да получавате актуализации за вашата поръчка!
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="address" class="form-label">Адрес</label>
+                    <input type="text" class="form-control" id="custAdd" placeholder="ул./бул. вашия адрес" required>
+                    <div class="invalid-feedback">
+                      Моля въведете вашият адрес за доставка!
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <label for="address2" class="form-label">Втори адрес<span
+                        class="text-muted">(Опционално)</span></label>
+                    <input type="text" class="form-control" id="custAdd2" placeholder="ул. вашия адрес">
+                  </div>
+                  <div class="col-md-5">
+                    <label for="country" class="form-label">Държава</label>
+                    <select class="form-select" id="country" required>
+                      <option value="">Избери...</option>
+                      <option>Съединени американски щати</option>
+                        <option>Албания</option>
+                        <option>Андора</option>
+                        <option>Армения</option>
+                        <option>Австрия</option>
+                        <option>Азербайджан</option>
+                        <option>Беларус</option>
+                        <option>Белгия</option>
+                        <option>Босна и Херцеговина</option>
+                        <option>България</option>
+                        <option>Хърватия</option>
+                        <option>Кипър</option>
+                        <option>Чешка Република</option>
+                        <option>Дания</option>
+                        <option>Естония</option>
+                        <option>Финландия</option>
+                        <option>Франция</option>
+                        <option>Грузия</option>
+                        <option>Германия</option>
+                        <option>Гърция</option>
+                        <option>Унгария</option>
+                        <option>Исландия</option>
+                        <option>Ирландия</option>
+                        <option>Италия</option>
+                        <option>Казахстан</option>
+                        <option>Косово</option>
+                        <option>Латвия</option>
+                        <option>Лихтенщайн</option>
+                        <option>Литва</option>
+                        <option>Люксембург</option>
+                        <option>Малта</option>
+                        <option>Молдова</option>
+                        <option>Монако</option>
+                        <option>Черна гора</option>
+                        <option>Холандия</option>
+                        <option>Северна Македония</option>
+                        <option>Норвегия</option>
+                        <option>Полша</option>
+                        <option>Португалия</option>
+                        <option>Румъния</option>
+                        <option>Русия</option>
+                        <option>Сан Марино</option>
+                        <option>Сърбия</option>
+                        <option>Словакия</option>
+                        <option>Словения</option>
+                        <option>Испания</option>
+                        <option>Швеция</option>
+                        <option>Швейцария</option>
+                        <option>Турция</option>
+                        <option>Украйна</option>
+                        <option>Обединеното кралство</option>
+                        <option>Ватикан</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Моля въведете валидна държава!
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label for="state" class="form-label">State</label>
+                    <select class="form-select" id="state" required>
+                      <option value="">Избери...</option>
+                      <option>Country</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Моля въведете валиден щат, ако се намирате в САЩ!
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <label for="Postcode" class="form-label">ПК</label>
+                    <input type="text" class="form-control" id="postCode" placeholder="" required>
+                    <div class="invalid-feedback">
+                      Моля въведете пощенски код!
+                    </div>
+                  </div>
+                </div>
+                <hr class="my-4">
+                <h4 class="mb-3">Плащане</h4>
+                <label for="card-element">Кредитна или дебитна карта</label>
+                <div id="card-element" class="form-control form-control-payment">
+                  <!-- Payment elements will appear here -->
+                </div>
+                <button id="submit" class="btn btn-primary w-100 fw-bold" data-secret="{{ client_secret }}">Плати</button>
+                <hr>
+                <div id="paypal-button-container"></div>
+                <!-- Sample PayPal credentials (client-id) are included -->
+                <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD&intent=capture" data-sdk-integration-source="integrationbuilder"></script>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+    var CSRF_TOKEN = '{{ csrf_token }}';
+</script>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<!--
+  paypal script
+-->
+<script>
+  const fundingSources = [
+    paypal.FUNDING.PAYPAL
+    ]
+  
+  var total = '{{basket.get_total_price}}'
+
+  for (const fundingSource of fundingSources) {
+    const paypalButtonsComponent = paypal.Buttons({
+      fundingSource: fundingSource,
+
+      // optional styling for buttons
+      // https://developer.paypal.com/docs/checkout/standard/customize/buttons-style-guide/
+      style: {
+        shape: 'rect',
+        height: 40,
+      },
+
+      // set up the transaction
+      createOrder: (data, actions) => {
+        // pass in any options from the v2 orders create call:
+        // https://developer.paypal.com/api/orders/v2/#orders-create-request-body
+        const createOrderPayload = {
+          purchase_units: [
+            {
+              amount: {
+                value: parseFloat(total / 2).toFixed(2),
+              },
+            },
+          ],
+        }
+
+        return actions.order.create(createOrderPayload)
+      },
+
+      // finalize the transaction
+      onApprove: (data, actions) => {
+        const captureOrderHandler = (details) => {
+          const payerName = details.payer.name.given_name
+          console.log('Transaction completed!')
+          window.location.replace("http://127.0.0.1:8000/payment/orderplaced/");
+        }
+
+        return actions.order.capture().then(captureOrderHandler)
+      },
+
+      // handle unrecoverable errors
+      onError: (err) => {
+        console.error(
+          'An error prevented the buyer from checking out with PayPal',
+        )
+      },
+    })
+
+    if (paypalButtonsComponent.isEligible()) {
+      paypalButtonsComponent
+        .render('#paypal-button-container')
+        .catch((err) => {
+          console.error('PayPal Buttons failed to render')
+        })
+    } else {
+      console.log('The funding source is ineligible')
+    }
+  }
+</script>
+
+<!--
+  stripe publick key and script for stripe
+-->
+<script>
+  var stripe = Stripe('pk_test_51MNydQIae454BRv0OrBiMfuCBjGU9XVLBQ6oeVlB7Xbt8wr4ZJIQDKFTpV6z1nfitxMqJ0R3ZKmNIxc0L0N6P0p300HORXZMTr')
+
+  var elem = document.getElementById('submit');
+clientsecret = elem.getAttribute('data-secret');
+
+// Set up Stripe.js and Elements to use in checkout form
+var elements = stripe.elements();
+var style = {
+base: {
+  color: "#000",
+  lineHeight: '2.4',
+  fontSize: '16px'
+}
+};
+
+
+var card = elements.create("card", { style: style });
+card.mount("#card-element");
+
+card.on('change', function(event) {
+var displayError = document.getElementById('card-errors')
+if (event.error) {
+  displayError.textContent = event.error.message;
+  $('#card-errors').addClass('alert alert-info');
+} else {
+  displayError.textContent = '';
+  $('#card-errors').removeClass('alert alert-info');
+}
+});
+
+var form = document.getElementById('payment-form');
+
+form.addEventListener('submit', function(ev) {
+ev.preventDefault();
+
+var custName = document.getElementById("custName").value;
+var custAdd = document.getElementById("custAdd").value;
+var custAdd2 = document.getElementById("custAdd2").value;
+var postCode = document.getElementById("postCode").value;
+
+
+  $.ajax({
+    type: "POST",
+    url: 'http://127.0.0.1:8000/orders/add/',
+    data: {
+      order_key: clientsecret,
+      csrfmiddlewaretoken: CSRF_TOKEN,
+      action: "post",
+    },
+    success: function (json) {
+      console.log(json.success)
+
+      stripe.confirmCardPayment(clientsecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            address:{
+                line1:custAdd,
+                line2:custAdd2
+            },
+            name: custName
+          },
+        }
+      }).then(function(result) {
+        if (result.error) {
+          console.log('payment error')
+          console.log(result.error.message);
+        } else {
+          if (result.paymentIntent.status === 'succeeded') {
+            console.log('payment processed')
+            // There's a risk of the customer closing the window before callback
+            // execution. Set up a webhook or plugin to listen for the
+            // payment_intent.succeeded event that handles any business critical
+            // post-payment actions.
+            window.location.replace("http://127.0.0.1:8000/payment/orderplaced/");
+          }
+        }
+      });
+
+    },
+    error: function (xhr, errmsg, err) {},
+  });
+});
+
+</script>
+<!--
+  <script src="{% static 'payment/index.js' %}" data-rel-js></script>
+-->
+
+{% endblock %}
