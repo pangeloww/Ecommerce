@@ -30,7 +30,7 @@ DEBUG = False
 #когато качвам сайта тук трябва да сложа домйна на който ще го кача
 #трябва да добавя домейна 'localhost' като оправя payment page-a
 #these are the hosts that are allowed to host the websitE
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'phoneacc.herokuapp.com']
 
 
 # Application definition and installed apps
