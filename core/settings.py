@@ -151,9 +151,9 @@ LOGIN_URL = '/account/login/'
 
 #Stripe payment
 
-STRIPE_ENDPOINT_SECRET = ''
-SECRET_KEY = ''
-PUBLISHABLE_KEY = ''
+STRIPE_ENDPOINT_SECRET = 'whsec_e1b9a950ded4fbbe1b05cb393c9271c84eb56d95afdd0b55eef09db6b7c3fe45'
+SECRET_KEY = 'sk_test_51MNydQIae454BRv064cflrQ5ky9q87umR1gxcTuaDbC76Avz6Fu3qqVyOx7ZbVpx5yvP9wor4MTjqNA1ctv9qOGR00bOHTLezi'
+PUBLISHABLE_KEY = 'pk_test_51MNydQIae454BRv0OrBiMfuCBjGU9XVLBQ6oeVlB7Xbt8wr4ZJIQDKFTpV6z1nfitxMqJ0R3ZKmNIxc0L0N6P0p300HORXZMTr'
 #stripe listen --forward-to localhost:8000/payment/webhook
 
 
